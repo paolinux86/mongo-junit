@@ -1,0 +1,27 @@
+plugins {
+	id "java"
+	id "idea"
+	id "net.researchgate.release" version "2.4.0"
+}
+
+group 'org.plue.mongojunit'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext {
+	spring_version = '4.3.1.RELEASE'
+	junit_version = '4.12'
+	embedmongo_version = '1.50.5'
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+
+dependencies {
+	compile group: 'org.springframework', name: 'spring-test', version: spring_version
+	compile group: 'junit', name: 'junit', version: junit_version
+	compile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: embedmongo_version
+}
