@@ -58,4 +58,8 @@ jar {
 		into("META-INF/maven/$project.group/$project.name")
 		rename "generated-pom.xml", "pom.xml"
 	}
+
+	manifest.attributes(
+			'Class-Path': configurations.runtime.files.collect { it.name }.join(' ')
+	)
 }
