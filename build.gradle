@@ -4,6 +4,8 @@ plugins {
 	id "net.researchgate.release" version "2.4.0"
 }
 
+apply plugin: "maven-publish"
+
 group 'org.plue.mongojunit'
 
 sourceCompatibility = 1.8
@@ -24,4 +26,36 @@ dependencies {
 	compile group: 'org.springframework', name: 'spring-test', version: spring_version
 	compile group: 'junit', name: 'junit', version: junit_version
 	compile group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: embedmongo_version
+}
+
+task sourceJar(type: Jar) {
+	from sourceSets.main.allJava
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			groupId project.group
+			artifactId project.name
+			version project.version
+
+			from components.java
+		}
+	}
+}
+
+model {
+	tasks.generatePomFileForMavenJavaPublication {
+		destination = file("${project.buildDir}/generated-pom.xml")
+	}
+	tasks.jar {
+		dependsOn generatePomFileForMavenJavaPublication
+	}
+}
+
+jar {
+	from("${project.buildDir}/generated-pom.xml") {//Or whatever path it goes to in the generate task.
+		into("META-INF/maven/$project.group/$project.name")
+		rename "generated-pom.xml", "pom.xml"
+	}
 }
