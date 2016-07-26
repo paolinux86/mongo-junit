@@ -25,7 +25,9 @@ public class MongoTestExecutionListener implements TestExecutionListener
 		try {
 			Class<?> testClass = testContext.getTestClass();
 			InMemoryMongo annotation = testClass.getAnnotation(InMemoryMongo.class);
-			startMongoDB(annotation);
+			if(annotation != null) {
+				startMongoDB(annotation);
+			}
 		} catch(IOException e) {
 			throw new RuntimeException("Cannot start Mongo DB", e);
 		}
@@ -63,7 +65,9 @@ public class MongoTestExecutionListener implements TestExecutionListener
 		try {
 			Class<?> testClass = testContext.getTestClass();
 			MongoImport annotation = testClass.getAnnotation(MongoImport.class);
-			importMongoDB(annotation);
+			if(annotation != null) {
+				importMongoDB(annotation);
+			}
 		} catch(IOException e) {
 			throw new RuntimeException("Cannot import Mongo DB", e);
 		}
